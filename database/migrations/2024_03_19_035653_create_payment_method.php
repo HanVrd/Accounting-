@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('payment_method', function (Blueprint $table) {
+            $table->id();
+            $table->string('payment_method_code');
+            $table->foreignId('id_coa')->references('id')->on('coa_group');
+            $table->foreignId('id_journal_type')->references('id')->on('journal_type');
+            $table->string('journal_type_name');
+            $table->string('payment_method_name');
+            $table->string('payment_method_desc');
+            $table->enum('payment_method_status', ['active', 'not active']);
+            $table->foreignId('id_modul')->references('id_modul')->on('modul_form');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('payment_method');
+    }
+};
